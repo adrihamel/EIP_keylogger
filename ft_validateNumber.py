@@ -7,12 +7,7 @@ Otherwise, throw an exception
 '''
 
 def validateNumber():
-    ok = False
-    num = 0
-    while (not ok):
-        try:
-            num = int(input("Enter an integer: "))
-            ok = True
-        except ValueError:
-            print("Error, enter an integer:\n")
-    return num
+    try:
+        return int(input("Enter an integer: "))
+    except ValueError:
+        print("Error, enter an integer:\n")
